@@ -26,7 +26,7 @@ async fn plaintext(data: web::Data<Mutex<Commits>>) -> HttpResponse<Body> {
 
     return match data.messages.choose(&mut rand::thread_rng()) {
         None => HttpResponse::Ok().content_type("text/plain").body("None"),
-        Some(message) => HttpResponse::Ok().content_type("text/plain").body(message.to_owned())
+        Some(message) => HttpResponse::Ok().content_type("text/plain").body(message.to_string() + "\n")
     };
 }
 
