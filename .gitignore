@@ -92,7 +92,8 @@ tmp/
 typings/
 .vscode-test
 .vuepress/dist
+templates/dist/*
+!templates/dist/index.html
 yarn-debug.log*
 yarn-error.log*
-dist/
 .yarn-integrity
