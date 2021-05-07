@@ -1,6 +1,6 @@
 use std::sync::Mutex;
 
-use actix_web::{App, HttpResponse, HttpServer, web, middleware, guard, HttpRequest};
+use actix_web::{App, HttpResponse, HttpServer, web, middleware, guard};
 use rand::seq::SliceRandom;
 use askama::Template;
 use actix_web::body::Body;
