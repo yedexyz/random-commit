@@ -1,4 +1,4 @@
-use std::sync::Mutex;
+use std::sync::{Mutex};
 
 use actix_web::{App, HttpResponse, HttpServer, web, middleware, guard};
 use rand::seq::SliceRandom;
@@ -19,23 +19,33 @@ struct CommitTemplate<'a> {
 }
 
 async fn plaintext(data: web::Data<Mutex<Commits>>) -> HttpResponse<Body> {
-    let data = data.lock().unwrap();
-    HttpResponse::Ok().content_type("text/plain").body(format!("{}\n", data.messages.choose(&mut rand::thread_rng()).unwrap()))
+    let data = match data.lock() {
+        Ok(commits) => commits,
+        Err(e) => panic!("Failed to get commit messages: {}", e)
+    };
+
+    return match data.messages.choose(&mut rand::thread_rng()) {
+        None => HttpResponse::Ok().content_type("text/plain").body("None"),
+        Some(message) => HttpResponse::Ok().content_type("text/plain").body(message.to_owned())
+    };
 }
 
 async fn html(data: web::Data<Mutex<Commits>>) -> HttpResponse<Body> {
-    let data = data.lock().unwrap();
-    let s = CommitTemplate {
-        commit: data.messages.choose(&mut rand::thread_rng()).unwrap()
+    let data = match data.lock() {
+        Ok(commits) => commits,
+        Err(e) => panic!("Failed to get commit messages: {}", e)
+    };
+
+    let html = CommitTemplate {
+        commit: match data.messages.choose(&mut rand::thread_rng()) {
+            None => "None",
+            Some(message) => message
+        }
     }
         .render()
         .unwrap();
 
-    CommitTemplate {
-        commit: data.messages.choose(&mut rand::thread_rng()).unwrap()
-    };
-
-    HttpResponse::Ok().content_type("text/html").body(s)
+    HttpResponse::Ok().content_type("text/html").body(html)
 }
 
 async fn health() -> HttpResponse {
