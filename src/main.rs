@@ -23,7 +23,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .wrap(Logger::new("Status: %s, IP: %a, UA: %{User-Agent}i"))
+            .wrap(Logger::new("Status: %s"))
             .app_data(commits.clone())
             .service(index)
     })
