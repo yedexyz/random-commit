@@ -68,7 +68,11 @@ async fn main() -> std::io::Result<()> {
                     web::route()
                         .guard(
                             guard::fn_guard(
-                                |req| req.headers().get(header::USER_AGENT).unwrap().to_str().unwrap().contains("curl")))
+                                |req| req
+                                    .headers()
+                                    .get(header::USER_AGENT)
+                                    .and_then(|h| h.to_str().ok())
+                                    .and_then(|h| h.to_ascii_lowercase().contains("curl").then(|| {})).is_some()))
                         .to(plaintext))
                 .route(
                     web::route()
