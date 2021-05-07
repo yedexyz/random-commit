@@ -15,7 +15,7 @@ async fn get_random_commit(data: web::Data<Mutex<Commits>>) -> HttpResponse {
     HttpResponse::Ok().body(format!("{}\n", data.messages.choose(&mut rand::thread_rng()).unwrap()))
 }
 
-#[get("/healthzz")]
+#[get("/health")]
 async fn health() -> HttpResponse {
     HttpResponse::Ok().body("Healthy\n")
 }
