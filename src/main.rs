@@ -13,7 +13,7 @@ struct Commits {
 }
 
 #[derive(Template)]
-#[template(path = "dist/index.html")]
+#[template(path = "index.html")]
 struct CommitTemplate<'a> {
     commit: &'a str,
 }
