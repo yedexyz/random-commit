@@ -24,10 +24,10 @@ async fn plaintext(data: web::Data<Mutex<Commits>>) -> HttpResponse<Body> {
         Err(e) => panic!("Failed to get commit messages: {}", e)
     };
 
-    return match data.messages.choose(&mut rand::thread_rng()) {
+    match data.messages.choose(&mut rand::thread_rng()) {
         None => HttpResponse::Ok().content_type("text/plain").body("None"),
         Some(message) => HttpResponse::Ok().content_type("text/plain").body(message.to_string() + "\n")
-    };
+    }
 }
 
 async fn html(data: web::Data<Mutex<Commits>>) -> HttpResponse<Body> {
