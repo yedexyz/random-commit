@@ -83,6 +83,7 @@ pub fn get_commits() -> Vec<&'static str> {
         "If you think this is a mistake, think again",
         "Improve the fix",
         "It was hard to write",
+        "It was hard to write, so it should be hard to read",
         "It's hard to be a fool",
         "Keep leaving trailing whitespaces all over the codebase",
         "LMAO",
